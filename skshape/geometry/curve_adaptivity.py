@@ -299,21 +299,20 @@ def estimates_and_markers(curve, current_info, parameters):
         it also contains the coarsening error function. The following
         is an example dictionary of parameters:
 
-        pair1 = ( (compute_geometric_error, None),
+        ::
+        
+          pair1 = ( (compute_geometric_error, None),
                   (fixed_el_tol_marking, {'tolerance': 0.01,
                                           'gamma_coarsen': 0.2} ) )
-
-        pair2 = ( (compute_data_error, {'data function':f}),
+          pair2 = ( (compute_data_error, {'data function':f}),
                   (equidistribution_marking, {'tolerance':    0.0001,
                                               'gamma_refine': 0.7,
                                               'gamma_coarsen':0.05} ) )
-
-        pair3 = ( (compute_coarsen_error,{'data function':f}),
+          pair3 = ( (compute_coarsen_error,{'data function':f}),
                   (equidistribution_marking, {'tolerance':    0.0001,
                                               'gamma_refine': 0.7,
                                               'gamma_coarsen':0.05} ) )
-
-        params = { 'errors and marking': [ pair1, pair2 ],
+          params = { 'errors and marking': [ pair1, pair2 ],
                    'coarsening errors and marking': [ pair3 ] }
 
     Returns
@@ -692,10 +691,15 @@ def refine_coarsen(curve, markers, data_vectors, refinement_method='curved'):
     the curve's nodes. For example, if the old node indices are 0,1,2,3,4
     and the elements are (0,1),(1,2),(2,3),(3,4),(4,0), then with a markers
     array of [1,-1,0,1,0], the changes in the elements is:
+    
        (0,1) refine => (0,1.5),(1.5,1) remapped to (0,1),(1,2)
+    
        (1,2),(2,3) coarsen => (1,3) remapped to (2,3)
+    
        (3,4) refine => (3,3.5),(3.5,4) remapped to (3,4),(4,5)
+    
        (4,0) no change => (4,0) remapped to (5,0)
+    
     The nodes of the new curve are 0,1,2,3,4,5 and the elements are
     (0,1),(1,2),(2,3),(3,4),(4,5),(5,0).
 
@@ -903,19 +907,23 @@ def geometric_adaptivity_parameters():
 
     Returns
     -------
-    params : dict
-        A copy of the following dictionary of parameters:
-        { 'maximum iterations': 5,
-          'minimum element size': 1e-8,
-          'maximum element size': 1000.0,
-          'refinement method':'curved'
-          'errors and marking': [
+    parameters : dict
+        A copy of the following dictionary of parameters.
+        
+        ::
+        
+          { 'maximum iterations': 5, 
+            'minimum element size': 1e-8, 
+            'maximum element size': 1000.0,
+            'refinement method':'curved'
+            'errors and marking': [
                 ( (compute_geometric_error, None),
                   (fixed el tol_marking,
                    marking_default_parameters['fixed element tol']) ) ],
-          'coarsening errors and marking': []  }
-
+            'coarsening errors and marking': []  }
+            
     """
+
     return copy_adaptivity_parameters( _geometric_adaptivity_parameters )
 
 
@@ -937,32 +945,33 @@ def adapt( curve, parameters=geometric_adaptivity_parameters() ):
     curve : :obj:'Curve
     parameters : dict
         A dictionary of the parameters for adaptivity. It includes
+        
         * a list of the error estimation and marking functions pairs and
-        their parameters,
+          their parameters,
         * a list of the coarsening error estimation and marking function
-        pairs and their parameters,
+          pairs and their parameters,
         * the maximum number of adaptation iterations,
         * the minimum element size,
         * the maximum element size,
         * the type of the refinement method ('curved' or 'linear')
+        
         Its default value is geometric_adaptivity_parameters defined
         in this file. An example set of parameters is as follows:
 
-        pair1 = ( (compute_geometric_error, None),
+        ::
+        
+          pair1 = ( (compute_geometric_error, None),
                   (fixed_el_tol_marking, {'tolerance': 0.01,
                                           'gamma_coarsen': 0.2} ) )
-
-        pair2 = ( (compute_data_error, {'data function':f}),
+          pair2 = ( (compute_data_error, {'data function':f}),
                   (equidistribution_marking, {'tolerance':    0.0001,
                                               'gamma_refine': 0.7,
                                               'gamma_coarsen':0.05} ) )
-
-        pair3 = ( (compute_data_coarsening_error,{'data function':f}),
+          pair3 = ( (compute_data_coarsening_error,{'data function':f}),
                   (equidistribution_marking, {'tolerance':    0.0001,
                                               'gamma_refine': 0.7,
                                               'gamma_coarsen':0.05} ) )
-
-        params = { 'errors and marking': [ pair1, pair2 ],
+          params = { 'errors and marking': [ pair1, pair2 ],
                    'coarsening errors and marking': [ pair3 ],
                    'maximum iterations': 5,
                    'minimum element size': 0.0001,
@@ -978,7 +987,10 @@ def adapt( curve, parameters=geometric_adaptivity_parameters() ):
         array to store the error values, parameters, a dictionary of
         parameters needed for error estimation. The default for these
         three arguments can be None. An example is
+        
+           
            compute_geometric_error(curve, mask=None, vec=None, parameters=None)
+        
         defined in the file.
 
     Returns

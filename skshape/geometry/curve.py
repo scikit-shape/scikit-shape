@@ -216,7 +216,8 @@ class Curve(Mesh):
         the curvatures and element sizes of the curves. Then the marking
         function marks the elements with errors above a certain threshold
         for refinement. See the following function for more information:
-            geometry.curve_adaptivity.compute_geometric_error(...)
+        
+        .. py:function::    geometry.curve_adaptivity.compute_geometric_error(...)
 
         If new refinement or coarsening error functions are added or appended,
         then mesh_adaptivity is turned on. To turn it off, you need to call
@@ -225,12 +226,20 @@ class Curve(Mesh):
         Parameters
         ----------
         refinement_functions
-             A pair of pairs storing the error estimation function and
+            A pair of pairs storing the error estimation function and
             the corresponding marking function to drive refinement of
             elements. It has the following format:
-                ( error_estimation_pair, marking_pair )
-            where error_estimation_pair = (error_func, error_params),
-                  marking_pair = (marking_func, marking_params).
+            
+               ( error_estimation_pair, marking_pair )
+            
+            where
+            
+               error_estimation_pair = (error_func, error_params)
+            
+            and
+            
+               marking_pair = (marking_func, marking_params).
+            
             The error estimation function should have the curve as an
             argument and three other optional arguments: mask, a boolean
             NumPy array or an integer NumPy array of element indices, vec,
@@ -238,8 +247,10 @@ class Curve(Mesh):
             a dictionary of parameters needed for error estimation.
             The default for these three arguments can be None.
             An example is
-               compute_geometric_error(curve, mask=None, vec=None,
+            
+            .. py:function::   compute_geometric_error(curve, mask=None, vec=None,
                                        parameters=None)
+            
             Marking functions are defined in the module geometry.marking.
 
         coarsening_functions
@@ -638,7 +649,9 @@ class Curve(Mesh):
         pwconst case) or for the nodes of the curve (the pwlinear case).
         In the piecewise constant case, the tangents are given by the
         difference of the first and second nodes of the element, i.e.
-                T[i] = ( x[i+1] - x[i],  y[i+1] - y[i] )
+        
+        .. math::   T[i] = ( x[i+1] - x[i],  y[i+1] - y[i] )
+        
         In the piecewise linear case, the tangents are computed as weighted
         averages of the element tangents.
         The tangent vectors are normalized to have unit length.
@@ -774,7 +787,9 @@ class Curve(Mesh):
         pwconst case) or for the nodes of the curve (the pwlinear case).
         In the piecewise constant case, the normals are given by the
         difference of the first and second nodes of the element, i.e.
-                N[i] = ( y[i] - y[i+1],  x[i+1] - x[i] )
+        
+        .. math::   N[i] = ( y[i] - y[i+1],  x[i+1] - x[i] )
+        
         In the piecewise linear case, the normals are computed as weighted
         averages of the element normals.
         The normal vectors are normalized to have unit length.
@@ -1025,7 +1040,9 @@ class Curve(Mesh):
 
         Estimates the second fundamental form on each element using
         the following formula:
-            II(s) = K(s) T(s) T(s)^T
+        
+        .. math::  II(s) = K(s) T(s) T(s)^T
+        
         where K(s) is the scalar curvature, interpolated linearly from
         nodal curvature values, T(s) is piecewise linear reconstruction
         of the unit tangent vector, T(s)^T is its transpose.
@@ -1074,7 +1091,7 @@ class Curve(Mesh):
         curve with the given velocity. The computation is based on the
         following inequality to be enforced
 
-            (dx1 - dx0) / h = dt (V1 - V0).T / h < tol
+        .. math:: (dx1 - dx0) / h = dt (V1 - V0).T / h < tol
 
         where dx1, dx0 denote the changes in the node locations,
         V1, V0 are their velocity, h is the size, T is the tangent
@@ -1453,7 +1470,8 @@ class CurveHierarchy(Mesh):
         the curvatures and element sizes of the curves. Then the marking
         function marks the elements with errors above a certain threshold
         for refinement. See the following function for more information:
-            geometry.curve_adaptivity.compute_geometric_error(...)
+        
+        .. py:function::    geometry.curve_adaptivity.compute_geometric_error(...)
 
         If new refinement or coarsening error functions are added or appended,
         then mesh_adaptivity is turned on. To turn it off, you need to call
@@ -1465,9 +1483,17 @@ class CurveHierarchy(Mesh):
             A pair of pairs storing the error estimation function
             and the corresponding marking function to drive
             refinement of elements. It has the following format:
-                ( error_estimation_pair, marking_pair )
-            where error_estimation_pair = (error_func, error_params),
-                  marking_pair = (marking_func, marking_params).
+               
+               ( error_estimation_pair, marking_pair )
+            
+            where
+               
+               error_estimation_pair = (error_func, error_params)
+            
+            and
+               
+               marking_pair = (marking_func, marking_params).
+            
             The error estimation function should have the curve as an
             argument and three other optional arguments: mask, a boolean
             NumPy array or an integer NumPy array of element indices, vec,
@@ -1475,8 +1501,10 @@ class CurveHierarchy(Mesh):
             a dictionary of parameters needed for error estimation.
             The default for these three arguments can be None.
             An example is
+               
                compute_geometric_error(curve, mask=None, vec=None,
                                        parameters=None)
+            
             Marking functions are defined in the module geometry.marking.
         coarsening_functions
             A pair of pairs storing the error estimation function and
@@ -2096,7 +2124,9 @@ class CurveHierarchy(Mesh):
         pwconst case) or for the nodes of the curves (the pwlinear case).
         In the piecewise constant case, the normals are given by the
         difference of the first and second nodes of the element, i.e.
-                N[i] = ( y[i] - y[i+1],  x[i+1] - x[i] )
+        
+        .. math:: N[i] = ( y[i] - y[i+1],  x[i+1] - x[i] )
+        
         In the piecewise linear case, the normals are computed as weighted
         averages of the element normals.
         The normal vectors are normalized to have unit length.
@@ -2160,7 +2190,9 @@ class CurveHierarchy(Mesh):
         pwconst case) or for the nodes of the curves (the pwlinear case).
         In the piecewise constant case, the tangents are given by the
         difference of the first and second nodes of the element, i.e.
-                T[i] = ( x[i+1] - x[i],  y[i+1] - y[i] )
+
+        .. math::   T[i] = ( x[i+1] - x[i],  y[i+1] - y[i] )
+
         In the piecewise linear case, the tangents are computed as weighted
         averages of the element tangents.
         The tangent vectors are normalized to have unit length.
@@ -2270,10 +2302,12 @@ class CurveHierarchy(Mesh):
 
         Estimates the second fundamental form on each element using
         the following formula:
-            II(s) = K(s) T(s) T(s)^T
-        where K(s) is the scalar curvature, interpolated linearly from
-        nodal curvature values, T(s) is piecewise linear reconstruction
-        of the unit tangent vector, T(s)^T is its transpose.
+
+        .. math:: II(s) = K(s) T(s) T(s)^T
+
+        where :math:`K(s)` is the scalar curvature, interpolated linearly from
+        nodal curvature values, :math:`T(s)` is piecewise linear reconstruction
+        of the unit tangent vector, :math:`T(s)^T` is its transpose.
         The second fundamental curve can be computed for nodes of the
         curve or interior points of the elements denoted by s, on all
         elements or selected elements specified by mask. They can be
@@ -2327,7 +2361,7 @@ class CurveHierarchy(Mesh):
         curve with the given velocity. The computation is based on the
         following inequality to be enforced
 
-            (dx1 - dx0) / h = dt (V1 - V0).T / h < tol
+        .. math:: (dx1 - dx0) / h = dt (V1 - V0).T / h < tol
 
         where dx1, dx0 denote the changes in the node locations,
         V1, V0 are their velocity, h is the size, T is the tangent

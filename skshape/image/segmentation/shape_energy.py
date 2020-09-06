@@ -143,7 +143,7 @@ class ShapeEnergy(object):
 class PwConstRegionEnergy(ShapeEnergy):
     """
     The piecewise constant energy approximates the multiphase segmentation
-    energy for a curve family :math:`\Gamma = \bigcup_k \Gamma_k`. The curves
+    energy for a curve family :math:`\Gamma = \\bigcup_k \Gamma_k`. The curves
     partition the image domain into regions :math:`\{ \Omega_k \}_k`.
     :math:`\Omega_k` is the region enclosed by the curve :math:`\Gamma_k`.
     :math:`\Omega_0` is the region left outside of all curves.
@@ -152,61 +152,72 @@ class PwConstRegionEnergy(ShapeEnergy):
     .. math::  J(\Gamma) = \mu \int_\Gamma d\Gamma + \sum_k \int_{\Omega_k} (I(x) - c_k)^2 dx,
 
     where :math:`I(x)` is the image intensity function, and
-    :math:`c_k = \frac{1}{|\Omega_k|} \int_{\Omega_k} I(x) dx` are the region
+    :math:`c_k=\\frac{1}{|\Omega_k|} \int_{\Omega_k} I(x) dx` are the region
     averages of the image intensity function.
+    
     The default version is the energy is multiphase, i.e. each curve
-    :math:`\Gamma_k` encloses a separate region as in [2_], but it can
-    also be set to two phases (see [1_],[3_]), then the union of the regions
-    bounded by :math:`\Gamma_k` with even indices represent the background
-    region, and those with odd indices represent the foreground region.
+    :math:`\Gamma_k` encloses a separate region as in [Dogan2015A]_, but it can
+    also be set to two phases (see [Chan2001]_, [Dogan2015B]_), then the union 
+    of the regions bounded by :math:`\Gamma_k` with even indices represent the 
+    background region, and those with odd indices represent the foreground region.
 
     Parameters
     ----------
     parameters : dict
         A dictionary of parameters used to initialize and setup the energy
         object. It has the following keys:
-        'image', a NumPy array of doubles, storing the image pixels, needs
+        
+            'image', a NumPy array of doubles, storing the image pixels, needs
             to be specified if an image function is not given.
-        'image function', an optional :class:`ImageFunction`, which can be
+        
+            'image function', an optional :class:`ImageFunction`, which can be
             internally defined using the image array if not provided.
-        'domain averages', (optional) an array of region averages of image
+        
+            'domain averages', (optional) an array of region averages of image
             intensity, they are computed automatically if not provided.
-        'number of phases', (optional) 2 or 'many', the default value is 'many'.
-        'world boundary', (optional) a rectangle :class:Curve indicating
+        
+            'number of phases', (optional) 2 or 'many', the default value is 'many'.
+        
+            'world boundary', (optional) a rectangle :class:Curve indicating
             the boundary of the image/world. The nodes should be in normalized
             coordinates, e.g. for a square-shaped image, the computational
             domain is a unit square, and the boundary of the unit square is
             world boundary. If not provided, it is inherited from the image.
-        'domain integration method', (optional) the integration method for the
+        
+            'domain integration method', (optional) the integration method for the
             domain integrals, one of the three options 'adaptive quadrature',
             'pixel summation', 'trapezoidal rule'. The default value is 'pixel
             summation'.
-        'total integration method', (optional) the integration method for the
+        
+            'total integration method', (optional) the integration method for the
             of the image intensity function over all the image domain.,
             one of the three options 'adaptive quadrature', 'pixel summation',
             'trapezoidal rule'. The default value is 'trapezoidal rule'.
-        'domain integral tol', (optional) integration error tolerance value,
+        
+            'domain integral tol', (optional) integration error tolerance value,
             used by adaptive quadrature in the domains
-        'surface integral tol' (optional) integration error tolerance value,
+        
+            'surface integral tol' (optional) integration error tolerance value,
             used  by adaptive quadrature on the surfaces or curves.
-        'use tight initial tol' (optional) boolean flag indicating whether
+        
+            'use tight initial tol' (optional) boolean flag indicating whether
             to use specified integral tolerances, even at the beginning of
             shape optimization when accuracy of adaptive quadrature is not
             very important. The default value is false, initial tol is not
             tight, it is relaxed a higher integral tol.
 
-    References
-    ----------
-    .. [_1] Chan, T.F.; Vese, L.A. ''Active contours without edges.''
-       IEEE Transactions on Image Processing 10(2), 266-277 (2001).
-    .. [_2] Dogan, G. ''An efficient curve evolution algorithm for multiphase
-       image segmentation.''
-       In International Workshop on Energy Minimization Methods in Computer Vision
-       and Pattern Recognition, 292-306, Springer, Cham (2015).
-    .. [_3] Dogan, G. ''Fast minimization of region-based active contours
-       using the shape hessian of the energy.''
-       In International Conference on Scale Space and Variational Methods in
-       Computer Vision, 307-319, Springer, Cham (2015).
+    Notes
+    -----
+    .. [Chan2001] : Chan, T.F.; Vese, L.A. "Active contours without edges."
+       *IEEE Transactions on Image Processing* 10(2), 266-277 (2001).
+    .. [Dogan2015A] : Dogan, G. "An efficient curve evolution algorithm for multiphase
+       image segmentation."
+       In *International Workshop on Energy Minimization Methods in Computer Vision
+       and Pattern Recognition*, 292-306, Springer, Cham (2015).
+    .. [Dogan2015B] : Dogan, G. "Fast minimization of region-based active contours
+       using the shape hessian of the energy."
+       In *International Conference on Scale Space and Variational Methods in
+       Computer Vision*, 307-319, Springer, Cham (2015).
     """
 
     def __init__(self, parameters):
@@ -992,42 +1003,49 @@ class IsotropicBoundaryEnergy(ShapeEnergy):
     spatially-varying weight function.
     This class can compute the energy values, and the first and second
     shape derivatives.
+    
     When combined with an image-based weight function :math:`g(x)`, such as
     the edge indicator function of an image intensity function :math:`I(x)`
 
-    .. math::  g(x) = 1 / (1 + |\nabla I(x)|^2 / \lambda^2), \lambda > 0
+    .. math::  g(x) = 1 / (1 + | \\nabla I(x)|^2 / \lambda^2), \lambda > 0
 
     this energy can be used to detect boundaries of objects in images,
     by fitting curves (or surfaces in 3d) to locations of high image
-    gradient (see [3_]). This energy implements the Lagrangian approach
-    proposed in [4_].
+    gradient (see [Caselles1997]_). This energy implements the Lagrangian approach
+    proposed in [Dogan2017]_.
 
     Parameters
     ----------
     parameters : dict
         A dictionary of parameters used to initialize and setup the energy
         object. It has the following keys:
-        'weight function', a weight function :math:`g(x)'that depends on
-            the spatial coordinates `x`, an array of shape (dim x n_coord_pts)
+        
+            'weight function', a weight function :math:`g(x)` that depends on
+            the spatial coordinates :math:`x`, an array of shape (dim x n_coord_pts)
             where dim = 2,3. It should return a 1d array of scalar values of
             length n_coord_pts.
-        'basin width', (optional) float parameter indicating the width of
+            
+            'basin width', (optional) float parameter indicating the width of
             the minima or valleys or basins. The default value is inherited
             from the image interpolant function, and can be inter-pixel dist.
-        'adaptive integral', (optional) boolean parameter indicating whether
+            
+            'adaptive integral', (optional) boolean parameter indicating whether
             the integration will be adaptive or not. The default value is
             False, so (non-adaptive) fixed quadrature integration is used.
-        'integral tol', (optional) float parameter indicating the error
+            
+            'integral tol', (optional) float parameter indicating the error
             tolerance of adaptive integration. The default value is 1e-4.
 
-    References
-    ----------
-    .. [_4] Caselles, V.; Kimmel, R.; Sapiro, G. ''Geodesic Active Contours.''
-       International Journal of Computer Vision, 22(1), 61-79 (1997).
-    .. [_5] Dogan, G. ''An Efficient Lagrangian Algorithm for an Anisotropic
-       Geodesic Active Contour Model.''
-       In International Conference on Scale Space and Variational Methods
-       in Computer Vision, 408-420, Springer, Cham (2017).
+  
+    Notes
+    -----
+    .. [Caselles1997] : Caselles, V.; Kimmel, R.; Sapiro, G. "Geodesic Active Contours."
+         *International Journal of Computer Vision*, 22(1), 61-79 (1997).
+    .. [Dogan2017] : Dogan, G. "An Efficient Lagrangian Algorithm for an Anisotropic
+       Geodesic Active Contour Model."
+       In *International Conference on Scale Space and Variational Methods
+       in Computer Vision*, 408-420, Springer, Cham (2017).
+       
     """
 
     def __init__(self, parameters):
