@@ -81,7 +81,7 @@ def segment_boundaries(image, initial_curves, method='multiphase',
     return final_surfaces
 
 
-def segment_by_topology(image, n_phases, mu=30, sigma=6, init_method='zero', gamma=0.5, epsilon=0):
+def segment_by_topology(image, n_phases, model='Laplace', mu=30, sigma=6, init_method='zero', gamma=0.5, epsilon=0):
     """Label image pixels into separate regions by topology optimization.
 
     This functions segments an image by topology optimization of a statistical
@@ -97,15 +97,19 @@ def segment_by_topology(image, n_phases, mu=30, sigma=6, init_method='zero', gam
         Array of image values.
     n_phases : int
         Number of regions.
-    init_method : str, optional
-        Choose an initilization method from 'zero', 'rand', 'chk', 'grid',
-        namely, zero or random or checkerboard or grid initialization.
-        Default value is 'zero'.
+    model : str, optional
+        The statistical distribution of pixel values assumed within each region.
+        It can be one of three values: 'pwconst', 'Laplace', 'Gaussian'.
+        Default value is 'Laplace'.
     mu : float, optional
         Parameter mu for weight of nonlocal region regularization. Default value is 30.
     sigma : int, optional
         Parameter sigma for distance computation (in terms of number of pixels).
         Default value is 6.
+    init_method : str, optional
+        Choose an initilization method from 'zero', 'rand', 'chk', 'grid',
+        namely, zero or random or checkerboard or grid initialization.
+        Default value is 'zero'.
     gamma : float, optional
         Parameter gamma for stopping criterion. Default value is 0.5.
     epsilon : float, optional
@@ -120,7 +124,8 @@ def segment_by_topology(image, n_phases, mu=30, sigma=6, init_method='zero', gam
 
     """
 
-    labels, new_image = topology_optim( image, n_phases=4, mu=30, sigma=6, init_method='zero', gamma=0.5, epsilon=0)
+    labels, new_image = topology_optim( image, n_phases, model, mu, sigma,
+                                        init_method, gamma, epsilon)
     return labels, new_image
 
 
