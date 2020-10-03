@@ -7,7 +7,7 @@ by preserving features like edges or corners.
 """
 
 import numpy as np
-import ..numerics.fem.grid_fem as fem
+from ..numerics.fem import grid_fem as fem
 from ..geometry.grid import Grid2d
 from ..numerics.function import EdgeIndicatorFunction
 from scipy.ndimage.filters import gaussian_gradient_magnitude
