@@ -10,7 +10,7 @@ well-suited to applications in computer vision, medical image processing,
 and other areas of scientific image analysis, such as astronomy, material 
 science etc.
 
-Current release of scikit-shape provides functionality for
+Current release of scikit-shape provides functionality for:
 * Adaptive deformable curves
 * Image-based meshing 
 * Image regularization and denoising
