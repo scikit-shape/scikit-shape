@@ -11,10 +11,12 @@ and other areas of scientific image analysis, such as astronomy, material
 science etc.
 
 Current release of scikit-shape provides functionality for
-- Image segmentation
-- 2d shape modeling
-- Image-based meshing in 2d
-- Shape distances for curves
+* Adaptive deformable curves
+* Image-based meshing 
+* Image regularization and denoising
+* Various image segmentation 
+* Elastic shape distances
+
 
 For more information, examples, and documentation, please visit our website
 
