@@ -20,7 +20,7 @@ Current release of scikit-shape provides functionality for:
 
 For more information, examples, and documentation, please visit our website
 
-  https://scikit-shape.org
+  http://scikit-shape.org
 
 The following people have contributed to this release of scikit-shape:
 Ajay Kannan, Gunay Dogan, Hasan Huseyin Eruslu, Kevin Su, Marilyn Y. Vazquez, 
